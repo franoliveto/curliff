@@ -1,0 +1,5 @@
+                        curliff README
+
+A straightforward utility that removes spurious carriage returns from a text file. Basically, it converts the combination CRLF (pronounced "curliff") on each end of text line to the single line feed character LF. The operation can be reverted if the program is invoked with -r option. 
+
+This tool is useful for situations where a text file must be moved back and forth between Windows and Unix systems. 
