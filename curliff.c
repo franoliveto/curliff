@@ -12,13 +12,17 @@
 #include <unistd.h>
 #include <stdbool.h>
 
+#include <sys/stat.h>
+#include <sys/types.h>
+
 
 int main(int argc, char *argv[])
 {
     int opt;
     int c, c_prev;
+    struct stat st;
     FILE *fpin, *fpout;
-    int retstatus = EXIT_FAILURE;
+    int ret = EXIT_FAILURE;
     bool revert = false;
     char *filename;
     
@@ -39,6 +43,11 @@ int main(int argc, char *argv[])
     }
 
     filename = argv[optind];
+
+    if (stat(filename, &st) || !S_ISREG(st.st_mode)) {
+        fprintf(stderr, "%s is a directory or special file.\n", filename);
+        exit(EXIT_FAILURE);
+    }
     
     errno = 0;
     if ((fpin = fopen(filename, "r")) == NULL)
@@ -70,9 +79,9 @@ int main(int argc, char *argv[])
             remove(".tmp");
         } else {
             rename(".tmp", filename);
-            retstatus = EXIT_SUCCESS;
+            ret = EXIT_SUCCESS;
         }
     }
     
-    return retstatus;
+    return ret;
 }
