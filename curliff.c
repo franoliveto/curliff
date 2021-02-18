@@ -16,72 +16,57 @@
 #include <sys/types.h>
 
 
+void curliff(FILE *fp, bool reverse)
+{
+    int c;
+
+    while ((c = getc(fp)) != EOF) {
+        if (reverse && c == '\n') {
+            putchar('\r');
+            putchar('\n');
+            continue;
+        } else if (c == '\r')
+            continue;
+        putchar(c);
+    }
+}
+
 int main(int argc, char *argv[])
 {
     int opt;
-    int c, c_prev;
     struct stat st;
-    FILE *fpin, *fpout;
-    int ret = EXIT_FAILURE;
-    bool revert = false;
-    char *filename;
+    FILE *fp;
+    bool reverse = false; /* by default, strip carriage returns */
     
     while ((opt = getopt(argc, argv, "r")) != -1) {
         switch (opt) {
         case 'r':
-            revert = true;
+            reverse = true;
             break;
-        default: /* '?' */
-            fprintf(stderr, "Usage: %s [-r] file\n", argv[0]);
+        default:
+            fprintf(stderr, "Usage: %s [-r] file(s)\n", argv[0]);
             exit(EXIT_FAILURE);
         }
     }
 
-    if (argc == optind) {
-        fprintf(stderr, "A file is required.\n");
-        exit(EXIT_FAILURE);
-    }
-
-    filename = argv[optind];
-
-    if (stat(filename, &st) || !S_ISREG(st.st_mode)) {
-        fprintf(stderr, "%s is a directory or special file.\n", filename);
-        exit(EXIT_FAILURE);
-    }
-    
-    errno = 0;
-    if ((fpin = fopen(filename, "r")) == NULL)
-        fprintf(stderr, "Can't open file '%s': %s.\n", filename, strerror(errno));
-    else if ((fpout = fopen(".tmp", "w")) == NULL) {
-        fprintf(stderr, "Can't open temporary file: %s.\n", strerror(errno));
-        fclose(fpin);
-    } else {
-        if (revert) {
-            /* Revert the convertion. Go from LF to CRLF */
-            c_prev = ' ';
-            while ((c = getc(fpin)) != EOF) {
-                if (c_prev != '\r' && c == '\n')
-                    putc('\r', fpout);
-                putc(c, fpout);
-                c_prev = c;
+    if (argc == optind)
+        curliff(stdin, reverse);
+    else {
+        for (; optind < argc; optind++) {
+            errno = 0;
+            if (stat(argv[optind], &st) == -1)
+                fprintf(stderr, "error: %s\n", strerror(errno));
+            else if (!S_ISREG(st.st_mode))
+                fprintf(stderr, "%s is a directory or special file.\n",
+                        argv[optind]);
+            else if ((fp = fopen(argv[optind], "r")) == NULL)
+                fprintf(stderr, "Can't open file '%s': %s.\n",
+                        argv[optind], strerror(errno));
+            else {
+                curliff(fp, reverse);
+                fclose(fp);
             }
-        } else {
-            /* Go from CRLF to LF */
-            while ((c = getc(fpin)) != EOF)
-                if (c != '\r')
-                    putc(c, fpout);
-        }
-
-        fclose(fpin);
-        errno = 0;
-        if (fclose(fpout) == EOF) {
-            fprintf(stderr, "Error: %s\n", strerror(errno));
-            remove(".tmp");
-        } else {
-            rename(".tmp", filename);
-            ret = EXIT_SUCCESS;
         }
     }
-    
-    return ret;
+    return EXIT_SUCCESS;
 }
