@@ -1,0 +1,61 @@
+= curliff(1)
+:author: Francisco Oliveto
+:doctype: manpage
+:date: 19 February 2021
+:email: franciscoliveto@gmail.com.
+:keywords: curliff
+:release-version: 0.1
+:manmanual: Curliff Manual.
+:mansource: Curliff {release-version}
+
+== NAME
+
+curliff - a little tool for removing spurious carriage returns from a text file.
+
+== SYNOPSIS
+
+*curliff* [OPTIONS] [file...]
+
+== DESCRIPTION
+
+A little tool for removing spurious carriage returns from a text file.
+It converts the combination <CR><LF> (pronounced "curliff") at the end of
+each text line to the single line feed character <LF>.
+
+If called with no arguments, this tool will filter standard input. The result
+of the operation is written to standard output.
+
+This tool is useful for situations in which a text file must be moved
+back and forth between Windows and Unix systems.
+
+== OPTIONS
+
+*-r*::
+        Reverses the operation, turning <LF> into <CR><LF>.
+
+== EXAMPLES
+
+The user might need the output to be presisted in a file, in that case a
+simple redirection will do:
+
+----
+curliff inputfile >outputfile
+----
+
+To inverse the operation:
+
+----
+curliff -r outputfile
+----
+
+This example shows how to strip CRs from a file only in lines
+that match certain text pattern. The result will be redirected to a file.
+
+----
+grep "^a" infile | ./curliff >file
+----
+
+== COPYING
+
+Copyright (c) 2020 {author}.
+SPDX-License-Identifier: BSD-2-clause.
