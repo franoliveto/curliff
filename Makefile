@@ -1,6 +1,6 @@
 # Makefile for the curliff tool
 
-VERS = 0.1
+VERS = 1.0
 
 # Use -g to compile the program for debugging.
 DEBUG = -O2

@@ -1,5 +1,15 @@
                 curliff project news
 
+1.0: 2021-02-21
+     Move README to asciidoc format.
+     Makefile: add dist, install, and uninstall targets.
+     Remove AUTHORS file.
+     Major refactor: handle multiple files; with no arguments read standard
+     input; write to standard output; simplified stripping algorithm.
+     Add documentation.
+     Add continuous integration: build stage.
+     Cleanup README.
+
 0.1: 2021-02-15
      Add file type validation.
 
