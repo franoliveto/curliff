@@ -6,11 +6,16 @@ ubuntu-latest:
   image: ubuntu:latest
   stage: build
   script:
+    - echo "We're about to build everything, sit tight."
     - apt-get update
     - apt-get -y install gcc asciidoctor make
     - make curliff
 
 test-job:
+  image: ubuntu:latest
   stage: test
   script:
     - echo "We're testing now, get away."
+    - apt-get update
+    - apt-get -y install gcc asciidoctor make
+    - make test
