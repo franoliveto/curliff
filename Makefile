@@ -19,7 +19,10 @@ curliff.o:
 curliff.1: curliff.adoc
 	asciidoctor -b manpage $<
 
-install:
+test: curliff
+	./tests.sh
+
+install: test
 	cp curliff /usr/bin
 	cp curliff.1 /usr/share/man/man1/curliff.1
 
