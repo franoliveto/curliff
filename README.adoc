@@ -1,4 +1,4 @@
-= curliff - removing spurious carrige returns.
+= curliff
 
 A little tool for removing spurious carriage returns from
 a text file. It converts the combination CRLF (pronounced "curliff")
