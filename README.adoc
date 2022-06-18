@@ -1,9 +1,23 @@
-= curliff README file
+= curliff - removing spurious carrige returns.
 
 A little tool for removing spurious carriage returns from
-a text file; it converts the combination CRLF (pronounced "curliff")
+a text file. It converts the combination CRLF (pronounced "curliff")
 at the end of each text line to the single line feed character LF.
 
 This tool is useful for situations in which a text file must be moved
 back and forth between Windows and Unix systems.
+
+Building and installing curliff is straightforward. Simply, run:
+
+----
+make && sudo make install
+----
+
+You will need make and gcc, and asciidoctor to format the documentation.
+
+The reference manual is accessible as usual:
+
+----
+man curliff
+----
 
