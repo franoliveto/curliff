@@ -1,6 +1,6 @@
 # Makefile for the curliff tool
 
-VERS = 1.0
+VERSION = 1.0
 
 # Use -g to compile the program for debugging.
 DEBUG = -O2
@@ -32,14 +32,13 @@ uninstall:
 .PHONY: clean
 clean:
 	rm -f $(OFILES) curliff
-	rm -f curliff-*.tar.gz curliff.1 MANIFEST
+	rm -f curliff-*.tar.gz curliff.1
 
-SOURCES = COPYING Makefile NEWS README.adoc curliff.c curliff.adoc
+SOURCES = Makefile curliff.c tests.sh
+DOCS = COPYING NEWS README.adoc curliff.adoc
+ALL = $(DOCS) $(SOURCES)
 
-curliff-$(VERS).tar.gz: $(SOURCES)
-	@ls $(SOURCES) | sed s:^:curliff-$(VERS)/: >MANIFEST
-	@cd .. && ln -s curliff curliff-$(VERS)
-	cd .. && tar -czf curliff/curliff-$(VERS).tar.gz `cat curliff/MANIFEST`
-	@cd .. && rm curliff-$(VERS)
+curliff-$(VERSION).tar.gz: $(SOURCES)
+	tar --transform='s:^:curliff-$(VERSION)/:' --show-transformed-names -cvzf curliff-$(VERSION).tar.gz $(ALL)
 
-dist: curliff-$(VERS).tar.gz
+dist: curliff-$(VERSION).tar.gz
