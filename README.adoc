@@ -1,6 +1,6 @@
 = curliff
 
-A little tool for removing spurious carriage returns from
+A tiny tool for removing spurious carriage returns from
 a text file. It converts the combination CRLF (pronounced "curliff")
 at the end of each text line to the single line feed character LF.
 
@@ -13,7 +13,8 @@ Building and installing curliff is straightforward. Simply, run:
 make && sudo make install
 ----
 
-You will need make and gcc, and asciidoctor to format the documentation.
+To be built, it requires make, a C compiler, and asciidoctor to
+format the documentation.
 
 The reference manual is accessible as usual:
 
