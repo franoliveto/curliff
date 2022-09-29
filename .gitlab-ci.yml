@@ -11,7 +11,7 @@ build-job:
   script:
     - make
   artifacts:
-    path:
+    paths:
       - curliff
 
 test-job:
