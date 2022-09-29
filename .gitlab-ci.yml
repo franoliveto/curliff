@@ -2,20 +2,19 @@ stages:
   - build
   - test
 
-ubuntu-latest:
-  image: ubuntu:latest
+image: gcc
+
+build-job:
   stage: build
+  before_script:
+    - apt update && apt -y install asciidoctor
   script:
-    - echo "We're about to build everything, sit tight."
-    - apt-get update
-    - apt-get -y install gcc asciidoctor make
-    - make curliff
+    - make
+  artifacts:
+    path:
+      - curliff
 
 test-job:
-  image: ubuntu:latest
   stage: test
   script:
-    - echo "We're testing now, get away."
-    - apt-get update
-    - apt-get -y install gcc asciidoctor make
-    - make test
+    - ./tests.sh
