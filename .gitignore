@@ -1,3 +1,4 @@
 *.o
 curliff
 *.tar.gz
+*.1
