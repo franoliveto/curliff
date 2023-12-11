@@ -1,20 +1,20 @@
 = curliff
 
-A tiny tool for removing spurious carriage returns from
+curliff is a tiny tool for removing spurious carriage returns from
 a text file. It converts the combination CRLF (pronounced "curliff")
 at the end of each text line to the single line feed character LF.
 
 This tool is useful for situations in which a text file must be moved
 back and forth between Windows and Unix systems.
 
+To be built, it requires make, a C compiler, and asciidoctor to
+format the documentation.
+
 Building and installing curliff is straightforward. Simply, run:
 
 ----
 make && sudo make install
 ----
-
-To be built, it requires make, a C compiler, and asciidoctor to
-format the documentation.
 
 The reference manual is accessible as usual:
 
